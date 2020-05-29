@@ -4,14 +4,19 @@ class Game {
     this.wordElement = container.querySelector('.word');
     this.winsElement = container.querySelector('.status__wins');
     this.lossElement = container.querySelector('.status__loss');
+    this.timerElement = container.querySelector('.status__timer');
+
+    this.timer = 0;
 
     this.reset();
 
     this.registerEvents();
+
   }
 
   reset() {
     this.setNewWord();
+    this.setTimer();
     this.winsElement.textContent = 0;
     this.lossElement.textContent = 0;
   }
@@ -24,6 +29,21 @@ class Game {
       В случае правильного ввода слова вызываем this.success()
       При неправильном вводе символа - this.fail();
      */
+    document.addEventListener('keydown', (event) => {
+      if (this.currentSymbol.textContent === event.key.toLowerCase()) this.success();
+      else this.fail();
+    })
+  }
+
+  setTimer() {
+    let timerValue = this.wordElement.getElementsByClassName('symbol').length;
+    this.timerElement.textContent = timerValue;
+    clearInterval(this.timer);
+    this.timer = setInterval(() => {
+      timerValue--;
+      if (timerValue === 0) this.fail();
+      this.timerElement.textContent = timerValue;
+    }, 1000)
   }
 
   success() {
@@ -38,6 +58,7 @@ class Game {
       this.reset();
     }
     this.setNewWord();
+    this.setTimer();
   }
 
   fail() {
@@ -46,6 +67,7 @@ class Game {
       this.reset();
     }
     this.setNewWord();
+    this.setTimer();
   }
 
   setNewWord() {
@@ -86,5 +108,5 @@ class Game {
   }
 }
 
-new Game(document.getElementById('game'))
+new Game(document.getElementById('game'));
 
