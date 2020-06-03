@@ -57,9 +57,10 @@ class Autocomplete {
   renderMatches( matches ) {
     const html = matches.map( item => `
     	<li>
-        <span class="autocomplete__item"
-        	data-index="${item.index}"
-          data-id="${item.value}"
+        <span
+            class="autocomplete__item"
+            data-index="${item.index}"
+            data-id="${item.value}"
         >${item.text}</span>
       </li>
     `);
@@ -81,12 +82,16 @@ class Autocomplete {
         value: 'Содержимое атрибута value'
       }
     */
-    return [
-      {
-        text: 'Чубакка',
-        value: '1'
-      }
-    ];
+
+    return Array.from(this.input.options)
+      .filter(option => option.text.toLowerCase().includes(text.toLowerCase()))
+      .map(option => {
+        return {
+          text: option.text,
+          value: option.value
+        }
+      });
+
   }
 }
 
