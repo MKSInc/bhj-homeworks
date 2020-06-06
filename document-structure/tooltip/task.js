@@ -6,7 +6,7 @@ document.addEventListener('click', event => {
 
     function addTooltip() {
         target.insertAdjacentHTML('afterend', `
-            <div class="tooltip tooltip_active" data-position="bottom">
+            <div class="tooltip tooltip_active">
               ${target.title}
             </div>`)
     }
@@ -29,23 +29,24 @@ document.addEventListener('click', event => {
         const {left: targetLeft, top: targetTop, right: targetRight} = target.getBoundingClientRect();
         const tooltipEl = target.nextElementSibling;
 
-        if (tooltipEl.dataset.position === 'bottom') {
-            tooltipEl.style.left = targetLeft + 'px';
-        }
+        switch (target.dataset.position) {
+            case 'bottom':
+                tooltipEl.style.left = targetLeft + 'px';
+                break;
 
-        if (tooltipEl.dataset.position === 'top') {
-            tooltipEl.style.left = targetLeft + 'px';
-            tooltipEl.style.top = targetTop - target.nextElementSibling.getBoundingClientRect().height + 'px';
-        }
+            case 'top':
+                tooltipEl.style.left = targetLeft + 'px';
+                tooltipEl.style.top = targetTop - target.nextElementSibling.getBoundingClientRect().height + 'px';
+                break;
 
-        if (tooltipEl.dataset.position === 'left') {
-            tooltipEl.style.top = targetTop + 'px';
-            tooltipEl.style.left = targetLeft - target.nextElementSibling.getBoundingClientRect().width + 'px';
-        }
+            case 'left':
+                tooltipEl.style.top = targetTop + 'px';
+                tooltipEl.style.left = targetLeft - target.nextElementSibling.getBoundingClientRect().width + 'px';
+                break;
 
-        if (tooltipEl.dataset.position === 'right') {
-            tooltipEl.style.top = targetTop + 'px';
-            tooltipEl.style.left = targetRight + 'px';
+            case 'right':
+                tooltipEl.style.top = targetTop + 'px';
+                tooltipEl.style.left = targetRight + 'px';
         }
     }
 });

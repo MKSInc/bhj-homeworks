@@ -2,6 +2,9 @@
 
 const taskInputEl = document.getElementById('task__input');
 const tasksListEl = document.getElementById('tasks__list');
+const tasksAddEl = document.getElementById('tasks__add');
+
+tasksAddEl.addEventListener('click' , event => event.preventDefault());
 
 taskInputEl.addEventListener('change', () => {
     taskInputEl.value = taskInputEl.value.trim();
